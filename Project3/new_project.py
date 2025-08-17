@@ -71,28 +71,30 @@ def any_to_decimal(number,base):
         sum=sum+to_add
 
     return sum
-
-def decimal_to_any(number,base):
-    current_dict = {10:'A',11:'B',12:'C',13:'D',14:'E',15:'F'}
+def decimal_to_any(number, base):
+    current_dict = {10:'A', 11:'B', 12:'C', 13:'D', 14:'E', 15:'F'}
     remainder_list = []
     to_divide = number
-    remainder = 1
-    while to_divide>base:
-        # print("i")
-        # print(to_divide)
-        remainder=to_divide%base
-        if remainder<10:
-            remainder_list.append(remainder)
+
+    while to_divide >= base:
+        remainder = to_divide % base
+        if remainder < 10:
+            remainder_list.append(str(remainder))
         else:
             remainder_list.append(current_dict[remainder])
-        to_divide=int(to_divide/base)
+        to_divide //= base
 
-    remainder_list.append(to_divide)
-    remainder_list=remainder_list[::-1]
+    # handle last digit
+    if to_divide < 10:
+        remainder_list.append(str(to_divide))
+    else:
+        remainder_list.append(current_dict[to_divide])
 
-    
-    ans = "".join(str(x) for x in remainder_list)
-    return ans
+    # reverse to get the correct order
+    remainder_list = remainder_list[::-1]
+
+    return "".join(remainder_list)
+
     
 def any_to_any(number,initial_base,final_base):
     first_step = any_to_decimal(number,initial_base)
